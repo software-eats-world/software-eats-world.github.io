@@ -17,33 +17,60 @@ along with the library. If not, see <http://www.gnu.org/licenses/>.
 */
 
 import { Link } from 'gatsby'
+import { useCallback } from 'react'
+import Particles from 'react-particles'
 import styled, { css } from 'styled-components'
+import { Engine, ISourceOptions } from 'tsparticles-engine'
+import { loadSeaAnemonePreset } from 'tsparticles-preset-sea-anemone'
 
-const IndexPage = () => (
-  <MainContainer>
-    <ContentContainer>
-      <ContentBox>
-        <ContentHeader>
-          <Emoji>🐼🎋👩‍💻✨⛓️</Emoji>
-        </ContentHeader>
-        <ContentText>
-          <Title>Panda Software</Title>
-          <Divider />
-          <Description>
-            Panda Software SA is a cutting-edge software development company specialized in blockchain technology and
-            the Web3 ecosystem. Its primary focus revolves around the Alephium blockchain, where it plays an integral
-            role in contributing to the core protocol while also pioneering innovative Web3 applications and services.
-          </Description>
-        </ContentText>
-      </ContentBox>
-    </ContentContainer>
-    <Footer>
-      <LinkToMail href="mailto:kjcoco13@gmail.com">Contact</LinkToMail>
-      <LinkToMail href="mailto:kjcoco13@gmail.com">Support</LinkToMail>
-      <LinkToPage to="/privacy-policy">Privacy policy</LinkToPage>
-    </Footer>
-  </MainContainer>
-)
+const IndexPage = () => {
+  const particlesInit = useCallback(async (engine: Engine) => {
+    await loadSeaAnemonePreset(engine)
+  }, [])
+
+  return (
+    <MainContainer>
+      <ContentContainer>
+        <ContentBox>
+          <ContentHeader>
+            <Emoji>🐼</Emoji>
+          </ContentHeader>
+          <ContentText>
+            <Title>Panda Software</Title>
+            <Divider />
+            <Description>
+              Panda Software SA is a cutting-edge software development company specialized in blockchain technology and
+              the Web3 ecosystem. Its primary focus revolves around the Alephium blockchain, where it plays an integral
+              role in contributing to the core protocol while also pioneering innovative Web3 applications and services.
+            </Description>
+          </ContentText>
+        </ContentBox>
+      </ContentContainer>
+      <Footer>
+        <Links>
+          <LinkToMail href="mailto:kjcoco13@gmail.com">Contact</LinkToMail>
+          <LinkToMail href="mailto:kjcoco13@gmail.com">Support</LinkToMail>
+          <LinkToPage to="/privacy-policy">Privacy policy</LinkToPage>
+        </Links>
+        <Address>{`
+      Ruelle William-Mayor 2 
+      2000 Neuchâtel 
+      Suisse
+      `}</Address>
+      </Footer>
+      <AnimatedBackground>
+        <Particles
+          style={{ zIndex: -1, position: 'absolute' }}
+          id="tsparticles"
+          init={particlesInit}
+          options={particlesOptions}
+        />
+      </AnimatedBackground>
+    </MainContainer>
+  )
+}
+
+export default IndexPage
 
 const MainContainer = styled.div`
   position: absolute;
@@ -65,15 +92,14 @@ const ContentContainer = styled.div`
 const ContentBox = styled.div`
   margin: auto;
   max-width: 600px;
-  background-color: white;
-  border: 1px solid rgb(237, 237, 237);
-  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 9px;
   overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px) saturate(200%);
 `
 
 const ContentHeader = styled.div`
-  background-color: black;
   display: flex;
   padding: 30px;
 `
@@ -104,14 +130,25 @@ const Description = styled.p`
 `
 
 const Footer = styled.footer`
-  height: 50px;
   border-top: 1px solid rgb(227, 227, 227);
-  width: 600px;
-  align-self: center;
+  padding: 20px 0 0;
+  margin-top: 25px;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px) saturate(200%);
+`
+
+const Links = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 25px;
+`
+
+const Address = styled.div`
+  color: grey;
+  text-align: center;
+  white-space: pre;
+  line-height: 25px;
 `
 
 const LinkBase = css`
@@ -131,4 +168,87 @@ const LinkToMail = styled.a`
   ${LinkBase}
 `
 
-export default IndexPage
+const AnimatedBackground = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+`
+
+const particlesOptions: ISourceOptions = {
+  preset: 'seaAnemone',
+  particles: {
+    color: {
+      value: '#ffffff'
+    },
+    move: {
+      direction: 'none',
+      enable: true,
+      path: {
+        clamp: false,
+        enable: true,
+        delay: {
+          value: 0
+        }
+      },
+      speed: 2,
+      trail: {
+        fill: { color: '#ffffff' },
+        length: 30,
+        enable: true
+      }
+    },
+    number: {
+      density: {
+        enable: true
+      },
+      value: 0
+    },
+    opacity: {
+      value: 1
+    },
+    shape: {
+      type: 'circle'
+    },
+    size: {
+      value: {
+        min: 1,
+        max: 50
+      },
+      animation: {
+        count: 1,
+        startValue: 'min',
+        enable: true,
+        speed: 10,
+        sync: true
+      }
+    }
+  },
+  background: {
+    color: '#ffffff'
+  },
+  emitters: {
+    direction: 'none',
+    rate: {
+      quantity: 5,
+      delay: 0.3
+    },
+    size: {
+      width: 0,
+      height: 0
+    },
+    spawnColor: {
+      value: '#3700ff',
+      animation: {
+        enable: true,
+        speed: 10
+      }
+    },
+    position: {
+      x: 50,
+      y: 42
+    }
+  }
+}
