@@ -48,8 +48,8 @@ const IndexPage = () => {
       </ContentContainer>
       <Footer>
         <Links>
-          <LinkToMail href="mailto:kjcoco13@gmail.com">Contact</LinkToMail>
-          <LinkToMail href="mailto:kjcoco13@gmail.com">Support</LinkToMail>
+          <LinkToMail href="mailto:info@panda-software.ch">Contact</LinkToMail>
+          <LinkToMail href="mailto:info@panda-software.ch">Support</LinkToMail>
           <LinkToPage to="/privacy-policy">Privacy policy</LinkToPage>
         </Links>
         <Address>{`
